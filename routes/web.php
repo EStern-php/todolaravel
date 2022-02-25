@@ -17,13 +17,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/another', function(){
-  //  die("test");
-    return view('another');
+Route::get('/dashboard', function () {
+
+    $userlists = DB::select('select * from todolists where userid = :user AND deleted = 0', ["user" => \Auth::id()]);
+  //  die(var_dump($userlists));
+    return view('dashboard', ['userslists' => $userlists]);
+})->middleware(['auth'])->name('dashboard');
+
+Route::post('addlist', function(){
+    $name = $_POST['listname'];
+    DB::insert('insert into todolists (userid, name) values(:user, :name)', ["user" => \Auth::id() , "name" => $name]);
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::post('deletelist', function(){
+    $id = $_POST['list-id'];
+    DB::update('update todolists set deleted = 1 where userid = :user AND id = :id', ["user" => \Auth::id() , "id" => $id]);
+});
 
 require __DIR__.'/auth.php';
