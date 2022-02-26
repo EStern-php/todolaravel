@@ -11,12 +11,21 @@
         </div>
         <div class="row">
             @foreach( $userslists as $list)
-                <div class="col-3 m-5 p-2 bg-secondary text-white w-100">
-                    <button type="button" class="delete-list-btn" data-id="{{$list->id}}" aria-label="Close">
+                <div class="col-3 m-5 p-2 bg-secondary text-white">
+                    <button type="button" class="delete-list-btn btn" data-id="{{$list->id}}" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                     <h2 class="text-center">{{$list->name}}</h2>
-                    
+                    <ul class="list-group">
+                    @foreach($list->tasks as $task)
+                      @if($task->completed == 1)
+                      <li class="list-group-item text-secondary"><button type="button" data-id="{{$task->id}}" class="btn btn-danger btn-xs remove-task-btn" aria-label="Close"><i class="fa fa-close"></i></button> <span class="task-{{$task->id}} text-decoration-line-through"> {{$task->task_desc}} </span><button class="complete-btn btn float-right btn-success" data-completed="0" data-id="{{$task->id}}"><i class="fa fa-check"></i></button></li>
+                      @else
+                      <li class="list-group-item text-secondary"><span class="task-{{$task->id}}"> {{$task->task_desc}} </span> <button class="complete-btn btn float-right" data-completed="1" data-id="{{$task->id}}"><i class="fa fa-check"></i></button></li>
+                      @endif
+                    @endforeach
+                    <li class="list-group-item text-secondary text-center"><button class="add-task-btn btn" data-id="{{$list->id}}">Add new task <i class="fa fa-plus"></i></button></li>
+                    </ul>
                 </div>
             @endforeach
         </div>
@@ -54,6 +63,32 @@
         
             <label for="listname">List name:</label><br>
             <input type="text" id="listname" name="listname"><br>
+            
+        
+      </div>
+      <div class="modal-footer">
+        <input type="submit" class="btn btn-success">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal edit-list-modal" id="edit-list-modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Edit Todo List</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form id="edit-list-form">
+      <div class="modal-body">
+            <input type="hidden" id="list-id" name="list-id">
+            <label for="task">Task description:</label>
+            <textarea id="task" name="task"></textarea>
             
         
       </div>

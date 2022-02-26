@@ -9,6 +9,7 @@
 
         <!-- Fonts -->
         <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+        
 
         <!-- Styles -->
         
@@ -18,6 +19,7 @@
         <script src="{{ asset('js/jquary.min.js') }}" defer></script>
         <script src="{{ asset('js/bootstrap.js') }}" defer></script>
         <script src="{{ asset('js/app.js') }}" defer></script>
+        <script src="https://use.fontawesome.com/d8797838ae.js"></script>
       
     </head>
     <body class="font-sans antialiased">
