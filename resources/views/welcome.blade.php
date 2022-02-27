@@ -29,15 +29,26 @@
                     <div class="col col-lg-2">
                     <h1>Eriks Todolist App </h1>
                     </div>
+                    
                     <div class="col-md-auto">
-                        Login or register to start using the application
-                    </div>
-                    <div class="col-md-auto">
-                    @if (Route::has('login'))
-                    <div class="login">
-                        @auth
-                            <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                        @if (Route::has('login'))
+                        <div class="login">
+                            @auth
+                            <p>Already logged in </p>
+                                <a href="{{ url('/dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-responsive-nav-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                    this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-responsive-nav-link>
+                        </form>
                         @else
+                        <div class="col-md-auto">
+                        Login or register to start using the application
+                        </div>
                             <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>

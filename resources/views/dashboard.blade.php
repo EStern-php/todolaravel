@@ -11,7 +11,8 @@
         </div>
         <div class="row">
             @foreach( $userslists as $list)
-                <div class="col-3 m-5 p-2 bg-secondary text-white">
+      
+                <div class="col-4 col-md-4 mb-5 p-2 bg-secondary text-white border">
                     <button type="button" class="delete-list-btn btn" data-id="{{$list->id}}" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -19,14 +20,28 @@
                     <ul class="list-group">
                     @foreach($list->tasks as $task)
                       @if($task->completed == 1)
-                      <li class="list-group-item text-secondary"><button type="button" data-id="{{$task->id}}" class="btn btn-danger btn-xs remove-task-btn" aria-label="Close"><i class="fa fa-close"></i></button> <span class="task-{{$task->id}} text-decoration-line-through"> {{$task->task_desc}} </span><button class="complete-btn btn float-right btn-success" data-completed="0" data-id="{{$task->id}}"><i class="fa fa-check"></i></button></li>
+                      <li class="list-group-item text-secondary li-task-{{$task->id}}">
+                      <span class="task-{{$task->id}}" style="text-decoration:line-through"> {{$task->task_desc}} </span>
+                        <div class="btn-group float-right" role="group">             
+                          <button class="complete-btn btn btn-success" data-completed="0" data-id="{{$task->id}}"><i class="fa fa-check"></i></button>
+                          <button type="button" data-id="{{$task->id}}" class="btn btn-danger btn-xs remove-task-btn" aria-label="Close">
+                          <i class="fa fa-close"></i></button> 
+                        </div>
+                      </li>
                       @else
-                      <li class="list-group-item text-secondary"><span class="task-{{$task->id}}"> {{$task->task_desc}} </span> <button class="complete-btn btn float-right" data-completed="1" data-id="{{$task->id}}"><i class="fa fa-check"></i></button></li>
+                      <li class="list-group-item text-secondary li-task-{{$task->id}}""><span class="task-{{$task->id}}"> {{$task->task_desc}} </span> 
+                      <div class="btn-group float-right" role="group">             
+                          <button class="complete-btn btn" data-completed="1" data-id="{{$task->id}}"><i class="fa fa-check"></i></button>
+                          <button type="button" data-id="{{$task->id}}" class="btn btn-danger btn-xs remove-task-btn" aria-label="Close">
+                          <i class="fa fa-close"></i></button> 
+                        </div>
+                      </li>
                       @endif
                     @endforeach
                     <li class="list-group-item text-secondary text-center"><button class="add-task-btn btn" data-id="{{$list->id}}">Add new task <i class="fa fa-plus"></i></button></li>
                     </ul>
                 </div>
+
             @endforeach
         </div>
 
@@ -62,7 +77,7 @@
       <div class="modal-body">
         
             <label for="listname">List name:</label><br>
-            <input type="text" id="listname" name="listname"><br>
+            <input type="text" class="form-control" id="listname" name="listname"><br>
             
         
       </div>
@@ -88,7 +103,7 @@
       <div class="modal-body">
             <input type="hidden" id="list-id" name="list-id">
             <label for="task">Task description:</label>
-            <textarea id="task" name="task"></textarea>
+            <textarea class="md-textarea form-control" row="3" id="task" name="task"></textarea>
             
         
       </div>
@@ -111,11 +126,10 @@
         </button>
       </div>
       <form id="delete-list-form">
-      <div class="modal-body">
-            <input type="hidden" name="list-id" id="list-id">
-      </div>
+            <input type="hidden" name="delete-list-id" id="delete-list-id" val="">
+
       <div class="modal-footer">
-        <input type="submit" class="btn btn-success">
+        <input type="submit" class="btn btn-success" value="Yes">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
       </div>
       </form>

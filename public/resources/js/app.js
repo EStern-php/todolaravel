@@ -1,6 +1,6 @@
 
 $('.delete-list-btn').click(function(){
-    $('#list-id').val($(this).data("id"));
+    $('#delete-list-id').val($(this).data("id"));
     $('#delete-list-modal').modal("show");
 });
 
@@ -17,6 +17,7 @@ $('#delete-list-form').submit(function(e){
         data: $(this).serialize(),
         success:function(data){
             console.log(data);
+            location.reload();
             $('#delete-list-modal').modal("hide");
         },
         error(e){
@@ -42,6 +43,7 @@ $('#new-list-form').submit(function(e){
         data: $(this).serialize(),
         success:function(data){
             console.log(data);
+            location.reload();
             $('#new-list-modal').modal("hide");
         },
         error(e){
@@ -51,10 +53,12 @@ $('#new-list-form').submit(function(e){
 });
 
 $('.complete-btn').click(function(){
-    console.log("click")
+    var btn = $(this);
+    var spanText = $('.task-'+$(this).data('id'));
     var id = $(this).data('id');
     var completed = $(this).data('completed');
-
+    console.log(spanText);
+    
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -65,7 +69,16 @@ $('.complete-btn').click(function(){
         url: "/completeTask",
         data: {"id":id, "completed":completed},
         success:function(data){
-            console.log(data);
+            console.log($(this));
+            if(btn.hasClass('btn-success')){
+                console.log("fklösd")
+                btn.removeClass('btn-success');
+                spanText.css("text-decoration", "none")
+            }else{
+                console.log("else")
+                btn.addClass('btn-success');
+                spanText.css("text-decoration", "line-through")
+            }
             $('#new-list-modal').modal("hide");
         },
         error(e){
@@ -94,6 +107,7 @@ $('#edit-list-form').submit(function(e){
         data: $(this).serialize(),
         success:function(data){
             console.log(data);
+            location.reload();
             $('#new-list-modal').modal("hide");
         },
         error(e){
@@ -104,6 +118,7 @@ $('#edit-list-form').submit(function(e){
 
 $('.remove-task-btn').click(function(){
     var id = $(this).data('id');
+    var li = $('.li-task-'+$(this).data('id')); 
     $.ajaxSetup({
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -114,6 +129,7 @@ $('.remove-task-btn').click(function(){
         url: "/removeTask",
         data: {"id": id},
         success:function(data){
+            li.remove();
             console.log(data);
         },
         error(e){

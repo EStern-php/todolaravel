@@ -34,7 +34,7 @@ Route::post('addlist', function(){
 });
 
 Route::post('deletelist', function(){
-    $id = $_POST['list-id'];
+    $id = $_POST['delete-list-id'];
     DB::update('update todolists set deleted = 1 where userid = :user AND id = :id', ["user" => \Auth::id() , "id" => $id]);
 });
 
